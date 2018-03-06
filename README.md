@@ -13,7 +13,7 @@
     - mybatis
     - 数据库连接池，驱动包
     - 其他（jstl，servlet-api，junit）
-3、引入bootstrap前端框架
-4、编写ssm整合的关键配置文件
-web.xml，spring,springmvc,mybatis，使用mybatis的逆向工程生成对应的bean以 及mapper
-5、测试mapper
+- 3、引入bootstrap前端框架
+- 4、编写ssm整合的关键配置文件
+    - web.xml，spring,springmvc,mybatis，使用mybatis的逆向工程生成对应的bean以及mapper
+- 5、测试mapper
