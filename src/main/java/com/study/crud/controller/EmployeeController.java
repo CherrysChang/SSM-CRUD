@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -26,14 +27,16 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     /**
-     * 查询员工数据（分页查询）
+     *查询员工数据（分页查询）
+     *
+     * index.jsp中“<jsp:forward page="/emps"/>”直接跳转到emps请求的方式
      *
      * 如果方法的入参为 Map 或 Model 类型，Spring MVC 会将隐含模型的引用传递给这些入参。
      * 在方法体内，开发者可以通过这个入参对象访问到模型中的所有数据，也可以向模型中添加新的属性数据
      * Map或 Model中存放的数据，实际都放到了request请求域里面。
      * @return
      */
-    @RequestMapping("/emps")
+//    @RequestMapping("/emps")
     public String getEmps( @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
                            Model model) {
         // 如果只是 List<Employee> emps = employeeService.getAll();这不是一个分页查询
@@ -51,5 +54,29 @@ public class EmployeeController {
         model.addAttribute("pageInfo", page);
 
         return "list";
+    }
+
+    /**
+     * 查询员工数据（分页查询）
+     * 返回值为 PageInfo，利用 @ResponseBody返回json数据，而不是页面，
+     *      访问地址：http://localhost:8080/ssm-crud/emps?pageNo=3 可以查看返回的 JSON字符串
+     *
+     * 注意：@ResponseBody正常工作需要 导入jackson包。负责将 对象 转换为 json字符串
+     */
+    @RequestMapping("/emps")
+    @ResponseBody //返回json数据
+    public PageInfo getEmpsWithJson( @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+                           Model model) {
+        // 引入PageHelper分页插件
+        // 在查询之前只需要调用 startPage，传入页码 pageNo，以及每页的大小 5
+        PageHelper.startPage(pageNo, 5);
+
+        // startPage 后面紧跟的这个查询就是一个分页查询
+        List<Employee> emps = employeeService.getAll();
+
+        // 使用pageInfo 包装查询后的结果，只需要将 pageInfo 交给页面就行了。
+        // pageInfo 封装了详细的分页信息,包括有我们查询出来的数据。
+        PageInfo page = new PageInfo(emps, 5);
+        return page;
     }
 }

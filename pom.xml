@@ -75,6 +75,14 @@
             <version>5.1.2</version>
         </dependency>
 
+        <!--返回JSON字符串 的支持-->
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+
 
         <!-- 数据库连接池、驱动 -->
         <!-- https://mvnrepository.com/artifact/c3p0/c3p0 -->
