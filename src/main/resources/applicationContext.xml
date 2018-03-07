@@ -1,6 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+    <!-- Spring的配置文件，这里主要配置和业务逻辑有关的 -->
+    <!-- Spring配置文件的核心点（数据源、与mybatis的整合，事务控制） -->
+
+    <!--扫描业务逻辑组件-->
+    <context:component-scan base-package="com.study.crud">
+        <!--不扫描 Controller 注解-->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--=================== 数据源，事务控制，xxx ================-->
+    <!-- 引入数据库的配置文件 -->
+    <context:property-placeholder location="classpath:dbconfig.properties"/>
+    <!-- 配置 C3P0 数据源 -->
+    <bean id="pooledDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="jdbcUrl" value="${jdbc.jdbcUrl}"/>
+        <property name="driverClass" value="${jdbc.driverClass}"/>
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--================== 配置和MyBatis的整合=============== -->
+    <!--创建出SqlSessionFactory对象  -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--dataSource 属性 指定数据源，这样在MyBatis全局配置文件中就不要配置数据源信息了，即不需要environments的配置-->
+        <property name="dataSource" ref="pooledDataSource"/>
+        <!-- configLocation：指定全局配置文件的位置 -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!--mapperLocations: 指定mapper文件的位置-->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </bean>
+
+    <!-- 配置扫描器，将mybatis接口的实现加入到ioc容器中 -->
+    <!-- mybatis-spring 自动扫描所有的mapper接口的实现，让这些mapper能够自动注入，即加入到IOC容器中
+            base-package：指定mapper接口的包名
+     -->
+    <mybatis-spring:scan base-package="com.study.crud.dao"/>
+    <!--&lt;!&ndash;老版项目的配置，可以自定义更多的规则&ndash;&gt;
+     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+         &lt;!&ndash;扫描所有dao接口的实现，加入到ioc容器中 &ndash;&gt;
+        <property name="basePackage" value="com.study.crud.dao"></property>
+    </bean> -->
+
+    <!-- 配置一个可以执行批量操作的sqlSession -->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <constructor-arg name="executorType" value="BATCH"/>
+    </bean>
+
+    <!-- ===============事务控制的配置 ================-->
+    <!-- 事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--事务管理器要能管理事务 就需要控制连接池中的所有连接-->
+        <!--控制住数据源-->
+        <property name="dataSource" ref="pooledDataSource"/>
+    </bean>
+    <!-- 开启基于注解的事务，使用 注解 的方式 配置声明式事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!--&lt;!&ndash;使用 xml 文件的方式 配置声明式事务&ndash;&gt;
+    <aop:config>
+        &lt;!&ndash; 切入点表达式 &ndash;&gt;
+        <aop:pointcut expression="execution(* com.study.crud.service..*(..))" id="txPoint"/>
+        &lt;!&ndash; 配置事务增强 &ndash;&gt;
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPoint"/>
+    </aop:config>
+
+    &lt;!&ndash;配置事务增强，事务如何切入  &ndash;&gt;
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            &lt;!&ndash; 所有方法都是事务方法 &ndash;&gt;
+            <tx:method name="*"/>
+            &lt;!&ndash;以get开始的所有方法  &ndash;&gt;
+            <tx:method name="get*" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>-->
 </beans>
