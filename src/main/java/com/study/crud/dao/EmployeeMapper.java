@@ -16,9 +16,16 @@ public interface EmployeeMapper {
 
     int insertSelective(Employee record);
 
+    /*带条件的查询 员工信息*/
     List<Employee> selectByExample(EmployeeExample example);
 
+    /*根据主键查询 员工信息*/
     Employee selectByPrimaryKey(Integer empId);
+
+    /*联合查询，部门信息和员工信息都查询出来*/
+    List<Employee> selectByExampleWithDept(EmployeeExample example);
+
+    Employee selectByPrimaryKeyWithDept(Integer empId);
 
     int updateByExampleSelective(@Param("record") Employee record, @Param("example") EmployeeExample example);
 

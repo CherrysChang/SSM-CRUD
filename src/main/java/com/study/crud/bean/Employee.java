@@ -11,6 +11,9 @@ public class Employee {
 
     private Integer dId;
 
+    //希望查询员工的同时部门信息也是查询好的
+    private Department department;//封装员工对应部门信息
+
     public Integer getEmpId() {
         return empId;
     }
@@ -49,5 +52,13 @@ public class Employee {
 
     public void setdId(Integer dId) {
         this.dId = dId;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }
