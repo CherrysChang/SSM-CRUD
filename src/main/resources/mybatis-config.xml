@@ -5,18 +5,20 @@
 <configuration>
 
     <settings>
-        <!-- Globally enables or disables any caches configured in any mapper under this configuration -->
-        <setting name="cacheEnabled" value="true"/>
-        <!-- Sets the number of seconds the driver will wait for a response from the database -->
-        <setting name="defaultStatementTimeout" value="3000"/>
-        <!-- Enables automatic mapping from classic database column names A_COLUMN to camel case classic Java property names aColumn -->
+        <!-- 开启二级缓存 -->
+        <!--<setting name="cacheEnabled" value="true"/>-->
+        <!-- 设置超时时间，它决定驱动等待数据库响应的秒数。 -->
+        <!--<setting name="defaultStatementTimeout" value="3000"/>-->
+        <!-- 开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射。-->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
-        <!-- Allows JDBC support for generated keys. A compatible driver is required.
-        This setting forces generated keys to be used if set to true,
-         as some drivers deny compatibility but still work -->
-        <setting name="useGeneratedKeys" value="true"/>
+        <!--	允许 JDBC 支持自动生成主键，需要驱动兼容。默认false。 如果设置为 true 则这个设置强制使用自动生成主键，尽管一些驱动不能兼容但仍可正常工作-->
+        <!--<setting name="useGeneratedKeys" value="true"/>-->
     </settings>
 
-    <!-- Continue going here -->
+    <!--别名处理器-->
+    <typeAliases>
+        <!--package:为某个包下的所有类批量起别名 -->
+        <package name="com.study.crud.bean"/>
+    </typeAliases>
 
 </configuration>
