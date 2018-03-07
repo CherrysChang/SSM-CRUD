@@ -1,4 +1,4 @@
-package com.study.crud.test;
+package crud;
 
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Desc:
+ * Desc: MyBatis 逆向工程 代码生成器
  * @author Qian
  **/
 public class MBGTest {
