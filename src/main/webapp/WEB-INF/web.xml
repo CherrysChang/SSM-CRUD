@@ -3,4 +3,35 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+
+    <!--1、启动 Spring 的 IOC 容器-->
+    <!-- needed for ContextLoaderListener -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext.xml</param-value>
+    </context-param>
+
+    <!-- Bootstraps the root web application context before servlet initialization -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!--2、springmvc 的前端控制器 DispatcherServlet，拦截所有请求  -->
+    <servlet>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!--通过 contextConfigLocation 初始化参数 自定义 配置文件的位置和名称。
+            也可以不采用 contextConfigLocation来配置 SpringMVC 的配置文件，而采用默认的。
+            默认的配置文件为：/WEB-INF/<servletName-servlet>.xml，如：dispatcherServlet-servlet.xml
+            -->
+       <!-- <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:springmvc.xml</param-value>
+        </init-param>-->
+        <load-on-startup>1</load-on-startup><!--在当前web应用被加载时创建，而不是第一次请求时创建-->
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 </web-app>
