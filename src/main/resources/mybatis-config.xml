@@ -20,5 +20,10 @@
         <!--package:为某个包下的所有类批量起别名 -->
         <package name="com.study.crud.bean"/>
     </typeAliases>
+    
+    <plugins>
+        <!--注册 pagehelper分页插件，如何使用参考：https://github.com/pagehelper/Mybatis-PageHelper-->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
 
 </configuration>
