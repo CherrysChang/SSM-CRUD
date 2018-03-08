@@ -81,7 +81,7 @@
                         <div class="col-sm-10">
                             <%--name跟JavaBean的属性名一样--%>
                             <input type="text" name="empName" class="form-control" id="empName_add_input" placeholder="empName">
-                            <span class="help-block"></span>
+                            <span class="help-block"></span><%--包含在此元素之内的 .control-label、.form-control 和 .help-block 元素都将接受Bootstrap 对表单控件的校验状态的样式--%>
                         </div>
                     </div>
                     <div class="form-group">
@@ -327,18 +327,48 @@
         var regName = /(^[a-zA-Z0-9_-]{6,16}$)|(^[\u2E80-\u9FFF]{2,5})/;
         //alert(regName.test(empName));//测试正则表达式，满足表达式返回true，不满足返回false
         if(!regName.test(empName)){//校验失败
-            alert("用户名可以是2-5位中文或者6-16位英文和数字的组合");
+            //alert("用户名可以是2-5位中文或者6-16位英文和数字的组合");
+            //注意每次显示新样式之前都应该清空这个元素之前的样式
+            /*$("#empName_add_input").parent().addClass("has-error");
+            $("#empName_add_input").next("span").text("用户名可以是2-5位中文或者6-16位英文和数字的组合");*/
+            show_validate_msg("#empName_add_input", "error", "用户名可以是2-5位中文或者6-16位英文和数字的组合");
             return false;
+        }else{
+           /* $("#empName_add_input").parent().addClass("has-success");
+            $("#empName_add_input").next("span").text("");*/
+            show_validate_msg("#empName_add_input", "success", "");
         }
 
         //2、校验邮箱信息
         var email = $("#email_add_input").val();
         var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
         if(!regEmail.test(email)){
-            alert("邮箱格式不正确");
+            //alert("邮箱格式不正确");
+            /*$("#email_add_input").parent().addClass("has-error");
+            $("#email_add_input").next("span").text("邮箱格式不正确");*/
+            show_validate_msg("#email_add_input", "error", "邮箱格式不正确");
             return false;
+        }else{
+            /*$("#email_add_input").parent().addClass("has-success");
+            $("#email_add_input").next("span").text("");*/
+            show_validate_msg("#email_add_input", "success", "");
         }
         return true;
+    }
+
+    //显示校验结果的提示信息（校验的模式基本相同，抽取出为一个方法）
+    function show_validate_msg(ele,status,msg){
+        //不管校验成功或失败都要清除当前元素的校验状态
+        $(ele).parent().removeClass("has-success has-error");//移除多个样式
+        $(ele).next("span").text("");
+
+        if("success"==status){
+            $(ele).parent().addClass("has-success");
+            $(ele).next("span").text(msg);
+        }else if("error" == status){
+            $(ele).parent().addClass("has-error");
+            $(ele).next("span").text(msg);
+        }
     }
 </script>
 </body>
