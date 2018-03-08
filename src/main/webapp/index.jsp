@@ -318,6 +318,7 @@
 
         //3、判断之前的ajax用户名校验是否成功。如果成功。
         if($(this).attr("ajax-va")=="error"){//判断当前保存按钮自定义属性的值是否表示不可用，不可用则结束校验
+            show_validate_msg("#empName_add_input","error",$(this).attr("err-msg"));
             return false;
         }
 
@@ -405,6 +406,7 @@
                 }else{
                     show_validate_msg("#empName_add_input","error",result.extend.va_msg);
                     $("#emp_save_btn").attr("ajax-va","error");
+                    $("#emp_save_btn").attr("err-msg",result.extend.va_msg);//自定义err-msg以便在点击保存设置前端校验时样式问题
                 }
             }
         });
