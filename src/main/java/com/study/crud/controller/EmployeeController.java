@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -140,5 +141,18 @@ public class EmployeeController {
         }else{
             return Msg.fail().add("va_msg", "用户名不可用");
         }
+    }
+
+    /**
+     * 根据id查询员工
+     * @param id
+     * @return
+     */
+    @RequestMapping(value="/emp/{id}",method=RequestMethod.GET)
+    @ResponseBody
+    public Msg getEmp(@PathVariable("id")Integer id){
+
+        Employee employee = employeeService.getEmp(id);
+        return Msg.success().add("emp", employee);
     }
 }

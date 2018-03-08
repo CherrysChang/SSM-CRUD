@@ -80,61 +80,6 @@
                         <label class="col-sm-2 control-label">empName</label>
                         <div class="col-sm-10">
                             <%--name跟JavaBean的属性名一样--%>
-                            <input type="text" name="empName" class="form-control" id="empName_update_input" placeholder="empName">
-                            <span class="help-block"></span><%--包含在此元素之内的 .control-label、.form-control 和 .help-block 元素都将接受Bootstrap 对表单控件的校验状态的样式--%>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">email</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="email" class="form-control" id="email_update_input" placeholder="email@atguigu.com">
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">gender</label>
-                        <div class="col-sm-10">
-                            <label class="radio-inline">
-                                <input type="radio" name="gender" id="gender1_update_input" value="M" checked="checked"> 男
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="gender" id="gender2_update_input" value="F"> 女
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">deptName</label>
-                        <div class="col-sm-4">
-                            <!-- 部门提交 部门id 即可 -->
-                            <select class="form-control" name="dId">
-                            </select>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" id="emp_update_btn">修改</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<%--员工修改的模态框--%>
-<div class="modal fade" id="empUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">员工修改</h4>
-            </div>
-            <div class="modal-body">
-                <%--表单样式参照：https://v3.bootcss.com/css/#forms--%>
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">empName</label>
-                        <div class="col-sm-10">
-                            <%--name跟JavaBean的属性名一样--%>
                             <input type="text" name="empName" class="form-control" id="empName_add_input" placeholder="empName">
                             <span class="help-block"></span><%--包含在此元素之内的 .control-label、.form-control 和 .help-block 元素都将接受Bootstrap 对表单控件的校验状态的样式--%>
                         </div>
@@ -169,7 +114,60 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" id="emp_save_btn">保存</button>
+                <button type="button" class="btn btn-primary" id="emp_add_btn">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--员工修改的模态框--%>
+<div class="modal fade" id="empUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">员工修改</h4>
+            </div>
+            <div class="modal-body">
+                <%--表单样式参照：https://v3.bootcss.com/css/#forms--%>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">empName</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="empName_update_static"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">email</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="email" class="form-control" id="email_update_input" placeholder="email@atguigu.com">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">gender</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="gender" id="gender1_update_input" value="M" checked="checked"> 男
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="gender" id="gender2_update_input" value="F"> 女
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">deptName</label>
+                        <div class="col-sm-4">
+                            <!-- 部门提交 部门id 即可 -->
+                            <select class="form-control" name="dId">
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="emp_update_btn">修改</button>
             </div>
         </div>
     </div>
@@ -225,8 +223,14 @@
              */
             var editBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
                 .append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("编辑");
+            //为编辑按钮添加一个自定义的属性，来表示当前员工id
+            editBtn.attr("edit-id",item.empId);
+
             var delBtn =  $("<button></button>").addClass("btn btn-danger btn-sm delete_btn")
                 .append($("<span></span>").addClass("glyphicon glyphicon-trash")).append("删除");
+            //为删除按钮添加一个自定义的属性来表示当前删除的员工id
+            delBtn.attr("del-id",item.empId);
+
             var btnTd = $("<td></td>").append(editBtn).append(" ").append(delBtn);
 
             //append方法执行完成以后还是返回原来的元素
@@ -501,11 +505,28 @@
         //1、查出部门信息，并显示部门列表
         getDepts("#empUpdateModal select");
         //2、查出员工信息，显示员工信息
+        getEmp($(this).attr("edit-id"));
 
         $("#empUpdateModal").modal({
             backdrop:"static"
         });
     });
+
+    //获取员工信息
+    function getEmp(id){
+        $.ajax({
+            url:"${APP_PATH}/emp/"+id,
+            type:"GET",
+            success:function(result){
+                console.log(result);
+                var empData = result.extend.emp;
+                $("#empName_update_static").text(empData.empName);
+                $("#email_update_input").val(empData.email);
+                $("#empUpdateModal input[name=gender]").val([empData.gender]);//jQuery中val方法返回任意元素的值。包括select。如果多选，将返回一个数组，其包含所选的值。
+                $("#empUpdateModal select").val([empData.dId]);
+            }
+        });
+    }
 </script>
 </body>
 </html>
