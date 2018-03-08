@@ -26,4 +26,12 @@ public class EmployeeService {
     public List<Employee> getAll() {
         return employeeMapper.selectByExampleWithDept(null);
     }
+
+    /**
+     * 保存员工
+     * @param employee
+     */
+    public void saveEmp(Employee employee) {
+        employeeMapper.insertSelective(employee);
+    }
 }

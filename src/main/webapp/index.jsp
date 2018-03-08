@@ -121,6 +121,10 @@
 </div>
 
 <script type="text/javascript">
+    //设置一个全局变量
+    //总记录数
+    var totalRecord;
+
     //1、页面加载完成以后，直接去发送ajax请求,要到列表分页数据
     $(function () {
         //去首页
@@ -189,6 +193,8 @@
         $("#page_info_area").append("当前 "+result.extend.pageInfo.pageNum+" 页,总 "+
             result.extend.pageInfo.pages+" 页,总 "+
             result.extend.pageInfo.total+" 条记录");
+
+        totalRecord = result.extend.pageInfo.total;//给全局变量赋值方便其他方法使用该变量值
     }
 
     //3、解析显示右下方 分页条，点击分页要能去下一页....
@@ -285,6 +291,28 @@
             }
         });
     }
+
+    //点击保存，保存员工。
+    $("#emp_save_btn").click(function(){
+        //1、模态框中填写的表单数据提交给服务器进行保存
+
+        //2、发送ajax请求保存员工
+        $.ajax({
+            url:"${APP_PATH}/emp",
+            type:"POST",
+            data:$("#empAddModal form").serialize(),//serialize()序列表表格内容为字符串，用于 Ajax 请求。
+            success:function(result){
+                //alert(result.msg);
+                //员工保存成功，需要如下两个工作：
+                //1、关闭模态框。https://v3.bootcss.com/javascript/#modals-methods
+                $("#empAddModal").modal('hide');
+
+                //2、来到列表最后一页，显示刚才保存的数据
+                //发送ajax请求显示最后一页数据即可
+                to_page(totalRecord);//传入大于总页数的值即可。这里传入总记录数。（因为之前在MyBatis配置文件已经设置分页插件的reasonable属性为true，pageNum>pages（超过总数时），会查询最后一页）
+            }
+        });
+    });
 </script>
 </body>
 </html>

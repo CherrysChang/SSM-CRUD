@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -80,5 +81,19 @@ public class EmployeeController {
         // pageInfo 封装了详细的分页信息,包括有我们查询出来的数据。
         PageInfo page = new PageInfo(emps, 5);
         return Msg.success().add("pageInfo",page);
+    }
+
+    /**
+     * 员工保存
+     *  RESTful风格的URI
+     *
+     * @param employee
+     * @return
+     */
+    @RequestMapping(value = "/emp", method = RequestMethod.POST)
+    @ResponseBody
+    public Msg saveEmp(Employee employee) {
+        employeeService.saveEmp(employee);
+        return Msg.success();
     }
 }
