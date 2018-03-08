@@ -329,13 +329,27 @@
             data:$("#empAddModal form").serialize(),//serialize()序列表表格内容为字符串，用于 Ajax 请求。
             success:function(result){
                 //alert(result.msg);
-                //员工保存成功，需要如下两个工作：
-                //1、关闭模态框。https://v3.bootcss.com/javascript/#modals-methods
-                $("#empAddModal").modal('hide');
+                if(result.code == 100) {
+                    //员工保存成功，需要如下两个工作：
+                    //1、关闭模态框。https://v3.bootcss.com/javascript/#modals-methods
+                    $("#empAddModal").modal('hide');
 
-                //2、来到列表最后一页，显示刚才保存的数据
-                //发送ajax请求显示最后一页数据即可
-                to_page(totalRecord);//传入大于总页数的值即可。这里传入总记录数。（因为之前在MyBatis配置文件已经设置分页插件的reasonable属性为true，pageNum>pages（超过总数时），会查询最后一页）
+                    //2、来到列表最后一页，显示刚才保存的数据
+                    //发送ajax请求显示最后一页数据即可
+                    to_page(totalRecord);//传入大于总页数的值即可。这里传入总记录数。（因为之前在MyBatis配置文件已经设置分页插件的reasonable属性为true，pageNum>pages（超过总数时），会查询最后一页）
+                }else{
+                    //显示失败信息，有哪个字段的错误信息就显示哪个字段的；
+                    //console.log(result);//先测试查看result有哪些内容方便后面可以用里面的属性等东西
+                    //alert(result.extend.errorFields.email);//测试查看email属性值是什么，可以发现如果该属性没有则为undefined
+                    if(undefined != result.extend.errorFields.email){
+                        //显示邮箱错误信息
+                        show_validate_msg("#email_add_input", "error", result.extend.errorFields.email);
+                    }
+                    if(undefined != result.extend.errorFields.empName){
+                        //显示员工名字的错误信息
+                        show_validate_msg("#empName_add_input", "error", result.extend.errorFields.empName);
+                    }
+                }
             }
         });
     });

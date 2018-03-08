@@ -83,6 +83,15 @@
             <version>2.9.0</version>
         </dependency>
 
+        <!--JSR303数据校验支持
+                tomcat7及以上的服务器，在项目中导入该jar即可。
+		        tomcat7以下的服务器：因为 el表达式不是新的标准，所以el的功能不强大。需额外给服务器的lib包中替换新的标准的el。-->
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.4.1.Final</version>
+        </dependency>
 
         <!-- 数据库连接池、驱动 -->
         <!-- https://mvnrepository.com/artifact/c3p0/c3p0 -->
