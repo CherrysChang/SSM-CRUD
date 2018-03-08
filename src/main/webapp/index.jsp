@@ -17,7 +17,8 @@
     <script src="${APP_PATH }/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 </head>
 <body>
-<!-- 搭建显示页面：使用BootStrap搭建。官方文档：栅格系统--https://v3.bootcss.com/css/#grid-->
+<!-- 搭建显示页面：使用BootStrap搭建（https://v3.bootcss.com/）。官方文档：栅格系统--https://v3.bootcss.com/css/#grid-->
+<%--列表页面--%>
 <div class="container">
     <!-- 第一行：标题 -->
     <div class="row">
@@ -30,7 +31,7 @@
     <div class="row">
         <%--占据4列 并设置偏移--%>
         <div class="col-md-4 col-md-offset-8">
-            <button class="btn btn-primary">新增</button>
+            <button class="btn btn-primary" id="emp_add_modal_btn">新增</button>
             <button class="btn btn-danger">删除</button>
         </div>
     </div>
@@ -63,8 +64,64 @@
         <div class="col-md-6" id="page_nav_area"></div>
     </div>
 </div>
+
+<%--员工新增的模态框，参考：https://v3.bootcss.com/javascript/#modals--%>
+<div class="modal fade" id="empAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">员工添加</h4>
+            </div>
+            <div class="modal-body">
+                <%--表单样式参照：https://v3.bootcss.com/css/#forms--%>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">empName</label>
+                        <div class="col-sm-10">
+                            <%--name跟JavaBean的属性名一样--%>
+                            <input type="text" name="empName" class="form-control" id="empName_add_input" placeholder="empName">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">email</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="email" class="form-control" id="email_add_input" placeholder="email@atguigu.com">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">gender</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="gender" id="gender1_add_input" value="M" checked="checked"> 男
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="gender" id="gender2_add_input" value="F"> 女
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">deptName</label>
+                        <div class="col-sm-4">
+                            <!-- 部门提交 部门id 即可 -->
+                            <select class="form-control" name="dId">
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="emp_save_btn">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
-    //1、页面加载完成以后，直接去发送ajax请求,要到分页数据
+    //1、页面加载完成以后，直接去发送ajax请求,要到列表分页数据
     $(function () {
         //去首页
         to_page(1);
@@ -196,6 +253,15 @@
         //6、将导航条nav添加到要显示的div中
         navEle.appendTo("#page_nav_area");
     }
+
+    //点击新增按钮弹出模态框
+    $("#emp_add_modal_btn").click(function(){
+        //弹出模态框
+        $("#empAddModal").modal({
+            backdrop:"static"
+        });
+    });
+
 </script>
 </body>
 </html>
