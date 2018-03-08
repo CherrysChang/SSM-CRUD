@@ -66,13 +66,19 @@
 <script type="text/javascript">
     //1、页面加载完成以后，直接去发送ajax请求,要到分页数据
     $(function () {
+        //去首页
+        to_page(1);
+    })
+
+    //抽取为一个单独的方法，方便调用
+    function to_page(pageNo) {
         $.ajax({
             url:"${APP_PATH}/emps",
-            data:"pageNo=1",
+            data:"pageNo="+pageNo,
             type:"GET",
             success:function (result) {
                 //在浏览器控制台查看数据信息
-                console.log(result);
+                //console.log(result);
                 //1、解析并显示 员工数据
                 build_emps_table(result);
                 //2、解析并显示 分页信息
@@ -81,10 +87,13 @@
                 build_page_nav(result)
             }
         });
-    })
+    }
 
     //1、解析显示员工列表数据
     function build_emps_table(result){
+        //清空table表格（因为ajax请求页面只是局部刷新，如果这里不清空数据的话，点击下一页或其他页码，会发现之前的列表数据还在，获取的新数据在此基础上添加）
+        $("#emps_table tbody").empty();
+
         var emps = result.extend.pageInfo.list;
         $.each(emps,function(index,item){
             var empIdTd = $("<td></td>").append(item.empId);
@@ -117,22 +126,51 @@
 
     //2、解析显示左侧 分页信息
     function build_page_info(result){
+        //清空信息
+        $("#page_info_area").empty();
+
         $("#page_info_area").append("当前 "+result.extend.pageInfo.pageNum+" 页,总 "+
             result.extend.pageInfo.pages+" 页,总 "+
             result.extend.pageInfo.total+" 条记录");
     }
 
-    //3、解析显示右下方 分页条
+    //3、解析显示右下方 分页条，点击分页要能去下一页....
     function build_page_nav(result){
         //page_nav_area
+        //清空信息
+        $("#page_nav_area").empty();
+
         //1、ul样式
         var ul = $("<ul></ul>").addClass("pagination");
         //构建元素
-        var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
-        var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));
+        var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href","#"));//首页
+        var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));//前一页
+        if(result.extend.pageInfo.hasPreviousPage == false){//判断是否有上一页
+            firstPageLi.addClass("disabled");//禁用
+            prePageLi.addClass("disabled");
+        }else {
+            //为元素添加点击翻页的事件
+            firstPageLi.click(function(){
+                to_page(1);
+            });
+            prePageLi.click(function(){
+                to_page(result.extend.pageInfo.pageNum -1);
+            });
+        }
 
-        var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;"));
-        var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+        var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;"));//下一页
+        var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href","#"));//末页
+        if(result.extend.pageInfo.hasNextPage == false){//判断是否有下一页
+            nextPageLi.addClass("disabled");
+            lastPageLi.addClass("disabled");
+        }else {
+            nextPageLi.click(function(){
+                to_page(result.extend.pageInfo.pageNum +1);
+            });
+            lastPageLi.click(function(){
+                to_page(result.extend.pageInfo.pages);
+            });
+        }
 
         //2、添加首页和前一页 的提示
         ul.append(firstPageLi).append(prePageLi);
@@ -140,6 +178,14 @@
         $.each(result.extend.pageInfo.navigatepageNums,function(index,item){
 
             var numLi = $("<li></li>").append($("<a></a>").append(item));
+            if(result.extend.pageInfo.pageNum == item){//遍历每个显示的页码 判断是否与当前列表的页码相同
+                numLi.addClass("active");//被选中样式
+            }
+            //点击动作
+            numLi.click(function(){
+                to_page(item);
+            });
+
             ul.append(numLi);
         });
         //4、添加下一页和末页 的提示
