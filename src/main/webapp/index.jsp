@@ -60,7 +60,7 @@
         <!--1、分页文字信息  -->
         <div class="col-md-6" id="page_info_area"></div>
         <!--2、分页条信息-->
-        <div class="col-md-6"></div>
+        <div class="col-md-6" id="page_nav_area"></div>
     </div>
 </div>
 <script type="text/javascript">
@@ -73,10 +73,12 @@
             success:function (result) {
                 //在浏览器控制台查看数据信息
                 console.log(result);
-                //1、解析并显示员工数据
+                //1、解析并显示 员工数据
                 build_emps_table(result);
-                //2、解析并显示分页信息
+                //2、解析并显示 分页信息
                 build_page_info(result);
+                //3、解析显示右下方 分页条
+                build_page_nav(result)
             }
         });
     })
@@ -113,11 +115,40 @@
         });
     }
 
-    //2、解析显示左侧分页信息
+    //2、解析显示左侧 分页信息
     function build_page_info(result){
         $("#page_info_area").append("当前 "+result.extend.pageInfo.pageNum+" 页,总 "+
             result.extend.pageInfo.pages+" 页,总 "+
             result.extend.pageInfo.total+" 条记录");
+    }
+
+    //3、解析显示右下方 分页条
+    function build_page_nav(result){
+        //page_nav_area
+        //1、ul样式
+        var ul = $("<ul></ul>").addClass("pagination");
+        //构建元素
+        var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+        var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));
+
+        var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;"));
+        var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+
+        //2、添加首页和前一页 的提示
+        ul.append(firstPageLi).append(prePageLi);
+        //1，2，3……。3、遍历给ul中 添加页码提示
+        $.each(result.extend.pageInfo.navigatepageNums,function(index,item){
+
+            var numLi = $("<li></li>").append($("<a></a>").append(item));
+            ul.append(numLi);
+        });
+        //4、添加下一页和末页 的提示
+        ul.append(nextPageLi).append(lastPageLi);
+
+        //5、把构建好的ul加入到nav
+        var navEle = $("<nav></nav>").append(ul);
+        //6、将导航条nav添加到要显示的div中
+        navEle.appendTo("#page_nav_area");
     }
 </script>
 </body>
