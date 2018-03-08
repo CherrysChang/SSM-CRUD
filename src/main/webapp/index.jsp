@@ -262,16 +262,28 @@
 
     //点击新增按钮弹出模态框
     $("#emp_add_modal_btn").click(function(){
-        //清除表单数据（表单重置）
+        //清除表单数据（表单完整重置：表单的数据，表单样式）
         // ----如果每次打开还是上一次新增成功的员工信息，此时各输入框都是校验通过的，在保存时会直接发送AJAX请求保存，不会再校验。所以可以清除之前填写的信息，重新填写校验
-        $("#empAddModal form")[0].reset();
+        //$("#empAddModal form")[0].reset();//只清除了文本内容，样式并没有改变
+        reset_form("#empAddModal form");//清空表单样式及内容
+
         //发送ajax请求，查出部门信息，显示在下拉列表中
         getDepts();
+
         //弹出模态框。参考：https://v3.bootcss.com/javascript/#通过-javascript-调用
         $("#empAddModal").modal({
             backdrop:"static"
         });
     });
+
+    //清空表单样式及内容
+    function reset_form(ele){
+        //清空表单内容
+        $(ele)[0].reset();
+        //清空表单样式
+        $(ele).find("*").removeClass("has-error has-success");
+        $(ele).find(".help-block").text("");
+    }
 
     //查出所有的部门信息并显示在下拉列表中
     function getDepts(){
@@ -332,7 +344,7 @@
         //1、拿到要校验的数据，使用正则表达式
         var empName = $("#empName_add_input").val();
         //正则表达式。可以参见jQuery文档
-        var regName = /(^[a-zA-Z0-9_-]{6,16}$)|(^[\u2E80-\u9FFF]{2,5})/;
+        var regName = /(^[a-zA-Z0-9_-]{6,16}$)|(^[\u2E80-\u9FFF]{2,5})/;//此处首尾的两个/是js中的，Java中没有
         //alert(regName.test(empName));//测试正则表达式，满足表达式返回true，不满足返回false
         if(!regName.test(empName)){//校验失败
             //alert("用户名可以是2-5位中文或者6-16位英文和数字的组合");
@@ -378,7 +390,7 @@
         }
     }
 
-    //校验用户名是否可用
+    //校验用户名是否可用（文本框内容变化时发送ajax请求去后台校验）
     $("#empName_add_input").change(function(){
         //发送ajax请求校验用户名是否可用
         var empName = this.value;

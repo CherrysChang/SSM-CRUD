@@ -105,7 +105,14 @@ public class EmployeeController {
     @RequestMapping("/checkuser")
     @ResponseBody
     public Msg checkuser(@RequestParam("empName") String empName){
-        //数据库用户名重复校验
+        //1、先判断用户名是否是合法的表达式;
+        // （以防出现先从后台检查出用户名不重复，在前台页面显示可用，但点击保存发现不符合前端js校验中表达式要求的内容又提示可用）
+        String regx = "(^[a-zA-Z0-9_-]{6,16}$)|(^[\u2E80-\u9FFF]{2,5})";//注意Java中正则表达式首尾没有"/"
+        if(!empName.matches(regx)){//matches方法返回true为匹配成功，false为失败
+            return Msg.fail().add("va_msg", "用户名必须是6-16位数字和字母的组合或者2-5位中文");
+        }
+
+        //2、数据库用户名重复校验
         boolean b = employeeService.checkUser(empName);
         if(b){
             return Msg.success();
