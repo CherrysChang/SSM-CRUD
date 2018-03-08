@@ -256,12 +256,35 @@
 
     //点击新增按钮弹出模态框
     $("#emp_add_modal_btn").click(function(){
-        //弹出模态框
+        //发送ajax请求，查出部门信息，显示在下拉列表中
+        getDepts();
+        //弹出模态框。参考：https://v3.bootcss.com/javascript/#通过-javascript-调用
         $("#empAddModal").modal({
             backdrop:"static"
         });
     });
 
+    //查出所有的部门信息并显示在下拉列表中
+    function getDepts(){
+        $.ajax({
+            url:"${APP_PATH}/depts",
+            type:"GET",
+            success:function(result){
+                //{"code":100,"msg":"处理成功！",
+                //"extend":{"depts":[{"deptId":1,"deptName":"开发部"},{"deptId":2,"deptName":"测试部"}]}}
+                //console.log(result);
+
+                //显示部门信息在下拉列表中
+                //$("#empAddModal select").append("")
+                $.each(result.extend.depts,function(){
+                    //下拉框选项
+                    var optionEle = $("<option></option>").append(this.deptName).attr("value",this.deptId);
+                    //添加到员工模态框的下拉框 select 中
+                    optionEle.appendTo("#empAddModal select");
+                });
+            }
+        });
+    }
 </script>
 </body>
 </html>
