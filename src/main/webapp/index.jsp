@@ -80,6 +80,61 @@
                         <label class="col-sm-2 control-label">empName</label>
                         <div class="col-sm-10">
                             <%--name跟JavaBean的属性名一样--%>
+                            <input type="text" name="empName" class="form-control" id="empName_update_input" placeholder="empName">
+                            <span class="help-block"></span><%--包含在此元素之内的 .control-label、.form-control 和 .help-block 元素都将接受Bootstrap 对表单控件的校验状态的样式--%>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">email</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="email" class="form-control" id="email_update_input" placeholder="email@atguigu.com">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">gender</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="gender" id="gender1_update_input" value="M" checked="checked"> 男
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="gender" id="gender2_update_input" value="F"> 女
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">deptName</label>
+                        <div class="col-sm-4">
+                            <!-- 部门提交 部门id 即可 -->
+                            <select class="form-control" name="dId">
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="emp_update_btn">修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--员工修改的模态框--%>
+<div class="modal fade" id="empUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">员工修改</h4>
+            </div>
+            <div class="modal-body">
+                <%--表单样式参照：https://v3.bootcss.com/css/#forms--%>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">empName</label>
+                        <div class="col-sm-10">
+                            <%--name跟JavaBean的属性名一样--%>
                             <input type="text" name="empName" class="form-control" id="empName_add_input" placeholder="empName">
                             <span class="help-block"></span><%--包含在此元素之内的 .control-label、.form-control 和 .help-block 元素都将接受Bootstrap 对表单控件的校验状态的样式--%>
                         </div>
@@ -268,7 +323,7 @@
         reset_form("#empAddModal form");//清空表单样式及内容
 
         //发送ajax请求，查出部门信息，显示在下拉列表中
-        getDepts();
+        getDepts("#empAddModal select");
 
         //弹出模态框。参考：https://v3.bootcss.com/javascript/#通过-javascript-调用
         $("#empAddModal").modal({
@@ -286,7 +341,10 @@
     }
 
     //查出所有的部门信息并显示在下拉列表中
-    function getDepts(){
+    function getDepts(ele){
+        //清空之前下拉列表的值
+        $(ele).empty();
+
         $.ajax({
             url:"${APP_PATH}/depts",
             type:"GET",
@@ -301,7 +359,7 @@
                     //下拉框选项
                     var optionEle = $("<option></option>").append(this.deptName).attr("value",this.deptId);
                     //添加到员工模态框的下拉框 select 中
-                    optionEle.appendTo("#empAddModal select");
+                    optionEle.appendTo(ele);
                 });
             }
         });
@@ -423,6 +481,29 @@
                     $("#emp_save_btn").attr("err-msg",result.extend.va_msg);//自定义err-msg以便在点击保存设置前端校验时样式问题
                 }
             }
+        });
+    });
+
+    //编辑功能
+    //1、下面click()写法不起作用。我们是 按钮创建之前就绑定了click，所以绑定不上。（按钮创建 在上面build_emps_table方法里，该方法是在页面加载完后调用）
+    /*$(".edit_btn").click(function () {
+     alert("edit");
+     })*/
+    //解决方法：1）、可以在创建按钮的时候绑定。2）、绑定点击.live()
+    //ps：live方法介绍----jQuery 给所有匹配的元素附加一个事件处理函数，即使这个元素是以后再添加进来的也有效。
+   /* $(".edit_btn").live(function () {
+        alert("edit");
+    })*/
+    //上面live方法测试运行时浏览器控制台说它不是一个方法，原因是jquery新版没有live方法（1.7版本以前使用live），使用on进行替代
+    $(document).on("click",".edit_btn",function(){
+        //alert("edit");
+
+        //1、查出部门信息，并显示部门列表
+        getDepts("#empUpdateModal select");
+        //2、查出员工信息，显示员工信息
+
+        $("#empUpdateModal").modal({
+            backdrop:"static"
         });
     });
 </script>
