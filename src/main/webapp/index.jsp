@@ -296,7 +296,12 @@
     $("#emp_save_btn").click(function(){
         //1、模态框中填写的表单数据提交给服务器进行保存
 
-        //2、发送ajax请求保存员工
+        //2、先对要提交给服务器的数据进行校验
+        if(!validate_add_form()){
+            return false;
+        };
+
+        //3、发送ajax请求保存员工
         $.ajax({
             url:"${APP_PATH}/emp",
             type:"POST",
@@ -313,6 +318,28 @@
             }
         });
     });
+
+    //校验表单数据
+    function validate_add_form(){
+        //1、拿到要校验的数据，使用正则表达式
+        var empName = $("#empName_add_input").val();
+        //正则表达式。可以参见jQuery文档
+        var regName = /(^[a-zA-Z0-9_-]{6,16}$)|(^[\u2E80-\u9FFF]{2,5})/;
+        //alert(regName.test(empName));//测试正则表达式，满足表达式返回true，不满足返回false
+        if(!regName.test(empName)){//校验失败
+            alert("用户名可以是2-5位中文或者6-16位英文和数字的组合");
+            return false;
+        }
+
+        //2、校验邮箱信息
+        var email = $("#email_add_input").val();
+        var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        if(!regEmail.test(email)){
+            alert("邮箱格式不正确");
+            return false;
+        }
+        return true;
+    }
 </script>
 </body>
 </html>
