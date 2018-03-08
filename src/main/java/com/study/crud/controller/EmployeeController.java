@@ -155,4 +155,53 @@ public class EmployeeController {
         Employee employee = employeeService.getEmp(id);
         return Msg.success().add("emp", employee);
     }
+
+    /**
+     * 发送ajax=POST 形式的请求，请求参数带上 &_method=PUT 可以正常更新成功。（HiddenHttpMethodFilter过滤器的作用）
+     *
+     * 如果直接发送 ajax=PUT 形式的请求
+     * 封装出来的数据为： 除了路径上带的 empId值不为空，其余全为 null
+     * Employee[empId=1014, empName=null, gender=null, email=null, dId=null]
+     *
+     * 问题：
+     * 请求体中有数据； 但是Employee对象封装不上；
+     * 最后拼出的sql语句为：update tbl_emp  where emp_id = 1014;
+     *
+     * 原因：
+     * 是由于 Tomcat 的问题：
+     * 		1、将请求体中的数据，封装一个map。
+     * 		2、比如 request.getParameter("empName") 就会从这个 map 中取值。
+     * 		3、SpringMVC封装 POJO对象的时候，
+     * 				会把 POJO 中每个属性的值调用 request.getParamter("email");来拿到。
+     *
+     * AJAX发送 PUT 请求引发的血案：
+     * 		PUT请求，请求体中的数据，用request.getParameter("empName")拿不到
+     * 		Tomcat一看是 PUT请求不会封装请求体中的数据为 map，只有 POST形式的请求才封装请求体为map
+     * org.apache.catalina.connector.Request--parseParameters() (3111行);
+     *
+         protected String parseBodyMethods = "POST";
+         if( !getConnector().isParseBodyMethod(getMethod()) ) {
+            success = true;
+            return;
+         }
+     *
+     *
+     * 解决方案：
+     * 我们要能 支持直接发送 PUT之类的请求，还要封装请求体中的数据
+     * 1、配置上 HttpPutFormContentFilter；（SpringMVC提供的解决方案）
+     * 2、它的作用：将请求体中的数据解析包装成一个 map。
+     * 3、request被重新包装，request.getParameter()被重写，就会从自己封装的map中取数据。
+     *
+     * 员工更新方法
+     * @param employee
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/emp/{empId}",method=RequestMethod.PUT)
+    public Msg saveEmp(Employee employee){
+//        System.out.println("请求体中的值："+request.getParameter("gender"));
+        System.out.println("将要更新的员工数据："+employee);
+        employeeService.updateEmp(employee);
+        return Msg.success()	;
+    }
 }

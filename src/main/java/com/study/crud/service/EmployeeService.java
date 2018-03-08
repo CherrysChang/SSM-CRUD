@@ -34,7 +34,7 @@ public class EmployeeService {
      * @param employee
      */
     public void saveEmp(Employee employee) {
-        employeeMapper.insertSelective(employee);
+        employeeMapper.insertSelective(employee);//有选择的插入，此处传入的id为空。如果选择insert方法需要id不能为空
     }
 
     /**
@@ -58,5 +58,13 @@ public class EmployeeService {
     public Employee getEmp(Integer id) {
         Employee employee = employeeMapper.selectByPrimaryKey(id);
         return employee;
+    }
+
+    /**
+     * 员工更新
+     * @param employee
+     */
+    public void updateEmp(Employee employee) {
+        employeeMapper.updateByPrimaryKeySelective(employee);//有选择的更新
     }
 }

@@ -175,8 +175,8 @@
 
 <script type="text/javascript">
     //设置一个全局变量
-    //总记录数
-    var totalRecord;
+    //总记录数、当前页码
+    var totalRecord,currentPage;
 
     //1、页面加载完成以后，直接去发送ajax请求,要到列表分页数据
     $(function () {
@@ -254,6 +254,7 @@
             result.extend.pageInfo.total+" 条记录");
 
         totalRecord = result.extend.pageInfo.total;//给全局变量赋值方便其他方法使用该变量值
+        currentPage = result.extend.pageInfo.pageNum;
     }
 
     //3、解析显示右下方 分页条，点击分页要能去下一页....
@@ -507,6 +508,9 @@
         //2、查出员工信息，显示员工信息
         getEmp($(this).attr("edit-id"));
 
+        //3、在编辑按钮中，把员工的id传递给模态框的更新按钮
+        $("#emp_update_btn").attr("edit-id",$(this).attr("edit-id"));
+
         $("#empUpdateModal").modal({
             backdrop:"static"
         });
@@ -527,6 +531,36 @@
             }
         });
     }
+
+    //点击更新，更新员工信息
+    $("#emp_update_btn").click(function(){
+        //验证邮箱是否合法
+        //1、校验邮箱信息
+        var email = $("#email_update_input").val();
+        var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        if(!regEmail.test(email)){
+            show_validate_msg("#email_update_input", "error", "邮箱格式不正确");
+            return false;
+        }else{
+            show_validate_msg("#email_update_input", "success", "");
+        }
+
+        //2、发送ajax请求保存 更新的员工数据
+        $.ajax({
+            url:"${APP_PATH}/emp/"+$(this).attr("edit-id"),
+            /*type:"POST",
+            data:$("#empUpdateModal form").serialize()+"&_method=PUT",*/
+            type:"PUT",
+            data:$("#empUpdateModal form").serialize(),
+            success:function(result){
+                //alert(result.msg);
+                //1、关闭对话框
+                $("#empUpdateModal").modal("hide");
+                //2、回到本页面
+                to_page(currentPage);
+            }
+        });
+    });
 </script>
 </body>
 </html>
