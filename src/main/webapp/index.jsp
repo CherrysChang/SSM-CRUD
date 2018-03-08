@@ -58,7 +58,7 @@
     <!-- 第四行：显示分页信息 -->
     <div class="row">
         <!--1、分页文字信息  -->
-        <div class="col-md-6">当前  页，总 页，总 条记录</div>
+        <div class="col-md-6" id="page_info_area"></div>
         <!--2、分页条信息-->
         <div class="col-md-6"></div>
     </div>
@@ -76,11 +76,12 @@
                 //1、解析并显示员工数据
                 build_emps_table(result);
                 //2、解析并显示分页信息
-
+                build_page_info(result);
             }
         });
     })
 
+    //1、解析显示员工列表数据
     function build_emps_table(result){
         var emps = result.extend.pageInfo.list;
         $.each(emps,function(index,item){
@@ -110,6 +111,13 @@
                 .append(btnTd)
                 .appendTo("#emps_table tbody");
         });
+    }
+
+    //2、解析显示左侧分页信息
+    function build_page_info(result){
+        $("#page_info_area").append("当前 "+result.extend.pageInfo.pageNum+" 页,总 "+
+            result.extend.pageInfo.pages+" 页,总 "+
+            result.extend.pageInfo.total+" 条记录");
     }
 </script>
 </body>
