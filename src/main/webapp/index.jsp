@@ -39,7 +39,7 @@
         <%--占据12列--%>
         <div class="col-md-12">
             <table class="table table-hover" id="emps_table">
-                <thread>
+                <thead>
                     <tr>
                         <th>#</th>
                         <th>empName</th>
@@ -48,7 +48,7 @@
                         <th>deptName</th>
                         <th>操作</th>
                     </tr>
-                </thread>
+                </thead>
                 <tbody>
                 </tbody>
             </table>
