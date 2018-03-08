@@ -96,4 +96,21 @@ public class EmployeeController {
         employeeService.saveEmp(employee);
         return Msg.success();
     }
+
+    /**
+     * 检查用户名是否可用
+     * @param empName
+     * @return
+     */
+    @RequestMapping("/checkuser")
+    @ResponseBody
+    public Msg checkuser(@RequestParam("empName") String empName){
+        //数据库用户名重复校验
+        boolean b = employeeService.checkUser(empName);
+        if(b){
+            return Msg.success();
+        }else{
+            return Msg.fail().add("va_msg", "用户名不可用");
+        }
+    }
 }

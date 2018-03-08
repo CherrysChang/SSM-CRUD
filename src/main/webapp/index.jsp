@@ -262,6 +262,9 @@
 
     //点击新增按钮弹出模态框
     $("#emp_add_modal_btn").click(function(){
+        //清除表单数据（表单重置）
+        // ----如果每次打开还是上一次新增成功的员工信息，此时各输入框都是校验通过的，在保存时会直接发送AJAX请求保存，不会再校验。所以可以清除之前填写的信息，重新填写校验
+        $("#empAddModal form")[0].reset();
         //发送ajax请求，查出部门信息，显示在下拉列表中
         getDepts();
         //弹出模态框。参考：https://v3.bootcss.com/javascript/#通过-javascript-调用
@@ -296,12 +299,17 @@
     $("#emp_save_btn").click(function(){
         //1、模态框中填写的表单数据提交给服务器进行保存
 
-        //2、先对要提交给服务器的数据进行校验
+        //2、先对要提交给服务器的数据进行前端校验
         if(!validate_add_form()){
-            return false;
+            return false;//校验失败，结束校验
         };
 
-        //3、发送ajax请求保存员工
+        //3、判断之前的ajax用户名校验是否成功。如果成功。
+        if($(this).attr("ajax-va")=="error"){//判断当前保存按钮自定义属性的值是否表示不可用，不可用则结束校验
+            return false;
+        }
+
+        //4、发送ajax请求保存员工
         $.ajax({
             url:"${APP_PATH}/emp",
             type:"POST",
@@ -355,7 +363,6 @@
         }
         return true;
     }
-
     //显示校验结果的提示信息（校验的模式基本相同，抽取出为一个方法）
     function show_validate_msg(ele,status,msg){
         //不管校验成功或失败都要清除当前元素的校验状态
@@ -370,6 +377,26 @@
             $(ele).next("span").text(msg);
         }
     }
+
+    //校验用户名是否可用
+    $("#empName_add_input").change(function(){
+        //发送ajax请求校验用户名是否可用
+        var empName = this.value;
+        $.ajax({
+            url:"${APP_PATH}/checkuser",
+            data:"empName="+empName,
+            type:"POST",
+            success:function(result){
+                if(result.code==100){
+                    show_validate_msg("#empName_add_input","success","用户名可用");
+                    $("#emp_save_btn").attr("ajax-va","success");//为保存按钮自定义一个属性ajax-va，标识当前用户名是否可用
+                }else{
+                    show_validate_msg("#empName_add_input","error",result.extend.va_msg);
+                    $("#emp_save_btn").attr("ajax-va","error");
+                }
+            }
+        });
+    });
 </script>
 </body>
 </html>
