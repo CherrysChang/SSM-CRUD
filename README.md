@@ -17,3 +17,11 @@
 - 4、编写ssm整合的关键配置文件
     - web.xml，spring,springmvc,mybatis，使用mybatis的逆向工程生成对应的bean以及mapper
 - 5、测试mapper
+
+注意点：
+
+	* 1、在新增以及修改时，引入数据校验（前端 ， 后端 ） 
+	* 2、删除时，单个&批量删除
+	* 3、mybatis generator的使用，自动生成 xxMapper文件
+	* 4、使用ajax请求。SpringMVC处理该请求，只需要@ResponseBody注解
+
