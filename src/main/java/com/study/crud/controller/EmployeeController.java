@@ -204,4 +204,17 @@ public class EmployeeController {
         employeeService.updateEmp(employee);
         return Msg.success()	;
     }
+
+    /**
+     * 员工删除
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/emp/{id}",method = RequestMethod.DELETE)
+    public Msg deleteEmp(@PathVariable("id") Integer id){
+        employeeService.deleteEmp(id);
+        return Msg.success();
+    }
 }

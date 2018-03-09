@@ -489,7 +489,7 @@
         });
     });
 
-    //编辑功能
+    //编辑功能:点击列表的编辑按钮
     //1、下面click()写法不起作用。我们是 按钮创建之前就绑定了click，所以绑定不上。（按钮创建 在上面build_emps_table方法里，该方法是在页面加载完后调用）
     /*$(".edit_btn").click(function () {
      alert("edit");
@@ -560,6 +560,25 @@
                 to_page(currentPage);
             }
         });
+    });
+
+    //点击列表的删除按钮（单个删除）
+    $(document).on("click",".delete_btn",function(){
+        //1、弹出是否确认删除对话框
+        //alert($(this).parents("tr").find("td:eq(1)").text());//测试 获取empName文本值
+        var empName=$(this).parents("tr").find("td:eq(1)").text();
+        var empId= $(this).attr("del-id");
+        if(confirm("确认删除【"+empName+"】吗？")){
+            $.ajax({
+                url:"${APP_PATH}/emp/"+empId,
+                type:"DELETE",
+                success:function (result) {
+                    alert(result.msg);
+                    //回到本页
+                    to_page(currentPage);
+                }
+            })
+        }
     });
 </script>
 </body>
