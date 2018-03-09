@@ -32,7 +32,7 @@
         <%--占据4列 并设置偏移--%>
         <div class="col-md-4 col-md-offset-8">
             <button class="btn btn-primary" id="emp_add_modal_btn">新增</button>
-            <button class="btn btn-danger">删除</button>
+            <button class="btn btn-danger" id="emp_delete_all_btn">删除</button>
         </div>
     </div>
     <!-- 第三行：显示表格数据 -->
@@ -573,7 +573,7 @@
     $(document).on("click",".delete_btn",function(){
         //1、弹出是否确认删除对话框
         //alert($(this).parents("tr").find("td:eq(1)").text());//测试 获取empName文本值
-        var empName=$(this).parents("tr").find("td:eq(1)").text();
+        var empName=$(this).parents("tr").find("td:eq(2)").text();
         var empId= $(this).attr("del-id");
         if(confirm("确认删除【"+empName+"】吗？")){
             $.ajax({
@@ -603,6 +603,37 @@
         //alert($(".check_item:checked").length);
         var flag = $(".check_item:checked").length == $(".check_item").length;
         $("#check_all").prop("checked",flag);
+    });
+
+    //点击删除按钮，就批量删除
+    $("#emp_delete_all_btn").click(function () {
+        //先找到被选中的元素，遍历每个被选中的元素
+        //$(".check_item:checked")
+        var empNames="";
+        var del_idstr = "";
+        $.each($(".check_item:checked"),function () {
+            //alert($(this).parents("tr").find("td:eq(2)").text());//获取员工姓名
+            //组装员工名字的字符串，用“,”分割
+            empNames+=$(this).parents("tr").find("td:eq(2)").text()+",";
+            //组装员工id的字符串，用“-”分割
+            del_idstr += $(this).parents("tr").find("td:eq(1)").text()+"-";
+        });
+        //去除empNames字符串中多余的“,”
+        empNames = empNames.substring(0,empNames.length-1);
+        //去除del_idstr字符串中多余的“-”
+        del_idstr = del_idstr.substring(0,del_idstr.length-1);
+        if(confirm("确认删除【"+empNames+"】吗？")){
+            //发送ajax请求进行删除
+            $.ajax({
+                url:"${APP_PATH}/emp/"+del_idstr,
+                type:"DELETE",
+                success:function (result) {
+                    alert(result.msg);
+                    //回到当前页面
+                    to_page(currentPage);
+                }
+            })
+        }
     })
 </script>
 </body>
