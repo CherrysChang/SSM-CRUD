@@ -117,7 +117,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" id="emp_add_btn">保存</button>
+                <button type="button" class="btn btn-primary" id="emp_save_btn">保存</button>
             </div>
         </div>
     </div>
@@ -529,7 +529,7 @@
             url:"${APP_PATH}/emp/"+id,
             type:"GET",
             success:function(result){
-                console.log(result);
+                //console.log(result);
                 var empData = result.extend.emp;
                 $("#empName_update_static").text(empData.empName);
                 $("#email_update_input").val(empData.email);
