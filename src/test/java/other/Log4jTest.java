@@ -4,12 +4,16 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.junit.Test;
 
 /**
  * Java 应用之日志框架 log4j
  * Apache的开源项目log4j是一个功能强大的日志组件,提供方便的日志记录。
- * 参考链接：http://how2j.cn/k/log4j/log4j-tutorial/1081.html
+ * 参考链接：
+ * http://how2j.cn/k/log4j/log4j-tutorial/1081.html
+ * Log4j详细使用教程:http://blog.csdn.net/evankaka/article/details/45815047
+ * http://wiki.jikexueyuan.com/project/log4j/configuration.html
  * Created by Qian on 2018/3/11 0011.
  */
 public class Log4jTest {
@@ -33,11 +37,15 @@ public class Log4jTest {
     }
 
     //1、基于类的名称获取日志对象
-    static Logger logger = Logger.getLogger(Log4jTest.class);
+    static Logger logger = Logger.getLogger(Log4jTest.class);//ps：getRootLogger()返回应用实例没有名字的根日志
     /**
      * 使用Log4j来进行日志输出
+     * BasicConfigurator.configure()： 自动快速地使用缺省Log4j环境。
+     * PropertyConfigurator.configure(String configFilename) ：读取使用 Java的特性文件编写的配置文件。(properties)
+     * DOMConfigurator.configure(String filename)：读取XML形式的配置文件。
+     *
      * 输出结果有几个改观：
-     * 1. 知道是log4j.TestLog4j这个类里的日志
+     * 1. 知道是other.Log4jTest这个类里的日志
      * 2. 是在[main]线程里的日志
      * 3. 日志级别可观察，一共有6个级别 TRACE DEBUG INFO WARN ERROR FATAL
      * 4. 日志输出级别范围可控制， 如代码所示，只输出高于DEBUG级别的，那么TRACE级别的日志自动不输出
@@ -59,16 +67,40 @@ public class Log4jTest {
         logger.fatal("致命信息");
     }
 
+    /**
+     * log4j配置
+     * 在src目录下添加log4j.properties文件
+     */
     @Test
     public void testLog4jConfig(){
-        PropertyConfigurator.configure(".\\src\\main\\resources\\log4j.properties");
+        //2、采用指定配置文件
+        PropertyConfigurator.configure(".\\src\\test\\resources\\log4j.properties");//Log4j的配置方式按照log4j.properties中的设置进行
         for (int i = 0; i < 5000; i++) {
-            logger.trace("跟踪信息");
-            logger.debug("调试信息");
-            logger.info("输出信息");
-            logger.warn("警告信息");
-            logger.error("错误信息");
-            logger.fatal("致命信息");
+            logger.trace(i+"跟踪信息");
+            logger.debug(i+"调试信息");
+            logger.info(i+"输出信息");
+            logger.warn(i+"警告信息");
+            logger.error(i+"错误信息");
+            logger.fatal(i+"致命信息");
+        }
+    }
+
+    /**
+     * log4j配置
+     * 在src目录下添加log4j.properties文件
+     */
+    @Test
+    public void testLog4jConfig2(){
+        //2、采用指定配置文件
+        //PropertyConfigurator.configure(".\\src\\test\\resources\\log4j.xml");
+        DOMConfigurator.configure(".\\src\\test\\resources\\log4j.xml");
+        for (int i = 0; i < 5000; i++) {
+            logger.trace(i+"跟踪信息");
+            logger.debug(i+"调试信息");
+            logger.info(i+"输出信息");
+            logger.warn(i+"警告信息");
+            logger.error(i+"错误信息");
+            logger.fatal(i+"致命信息");
         }
     }
 }
