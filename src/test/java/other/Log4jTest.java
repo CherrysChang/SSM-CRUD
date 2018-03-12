@@ -103,4 +103,32 @@ public class Log4jTest {
             logger.fatal(i+"致命信息");
         }
     }
+
+    /**
+     * Web项目中使用Log4j
+     * 在 J2EE应用使用 Log4j，必须先在启动服务时加载 Log4j的配置文件进行初始化，可以在web.xml中进行。
+     * 1、web应用的log4j使用基本上都采用：新建一个servlet，这个servlet在init函数中为log4j执行配置。一般就是读入配置文件。所以需要在web.xml中为这个servlet配置，同时设定load-on-startup为1。
+     * 2、这个servlet配置log4j就是读出配置文件，然后调用configure函数。这里有两个问题：一、需要知道文件在哪里；二、需要正确的文件类型
+     * 3、配置文件位置在web.xml中配置一个param即可，路径一般是相对于web的root目录
+     * 4、文件类型一般有两种，一个是Java的property文件，另一种是xml文件
+     *
+     * 普通JavaWeb应用（基于Tomcat）中初始化Log4j的两种方式：
+     * １、通过增加 InitServlet ,设置令其自启动来初始化 Log4j 。　　
+     * ２、通过监听器 ServletContextListener 监听 ServletContext 的初始化事件来初始化 Log4j 。
+     */
+
+    /**
+     * Spring中使用Log4j
+     * ps: Spring需要依赖于commons-logging，所以使用 Spring时，会存在 commons-logging的 jar包
+     * 当commons-logging.jar被加入到CLASSPATH之后，它会合理地猜测你想用的日志工具，然后进行自我设置，用户根本不需要做任何设置。（按照顺序执行）
+     *      1) 首先在classpath下寻找自己的配置文件commons-logging.properties。这个属性文件至少定义org.apache.commons.logging.Log属性，它的值应该是上述任意Log接口实现的完整限定名称。如果找到，则使用其中定义的Log实现类；
+            2) 如果找不到commons-logging.properties文件或属性不存在，则在查找是否已定义系统环境变量 org.apache.commons.logging.Log，找到则使用其定义的Log实现类；
+            3) 否则，查看classpath中是否有Log4j的包，如果发现，则自动使用Log4j作为日志实现类（Log4JLogger），不过这时log4j本身的属性仍要通过log4j.properties文件正确配置；
+            4) 如果上述查找均不能找到适当的Logging API，但应用程序正运行在JRE 1.4或更高版本上，则默认使用JRE 1.4的日志记录功能，使用JDK自身的日志实现类Jdk14Logger（JDK1.4以后才有日志实现类）；
+            5) 如果上述操作都失败（JRE 版本也低于1.4），则使用commons-logging自己提供的一个简单的日志实现类SimpleLog，SimpleLog把所有日志信息直接输出到System.err。
+     * 所以如果 我们导入了 Log4j的 jar包，并没有配置 commons-logging.properties，会自动使用Log4j作为日志实现类
+     *
+     * 参考：
+     * SpringMVC中配置Log4j日志到指定目录：http://www.ibloger.net/article/1374.html
+     */
 }

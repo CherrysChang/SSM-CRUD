@@ -3,6 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+    <!--web.xml节点加载顺序：节点的加载顺序与它们在 web.xml 文件中的先后顺序无关。
+    加载顺序为：context-param -> listener -> filter -> servlet-->
 
     <!--1、启动 Spring 的 IOC 容器-->
     <!-- needed for ContextLoaderListener -->
@@ -10,6 +12,33 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:applicationContext.xml</param-value>
     </context-param>
+
+    <!--Spring 中配置log4j日志功能：
+        ①log4jConfigLocation 指定Spring从哪个目录下加载 log4j.properties 配置文件
+        ②log4jRefreshInterval 当修改了配置文件时，不需要重启就能加载变化了的log4j.properties 配置文件
+        ③webAppRootKey 项目的标识，一个窗口中可能部署了多个项目，用它进行区分。当配置日志文件的输出目录时，可能会用到它-->
+    <!-- 加载log4j的配置文件log4j.properties -->
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>classpath:log4j.properties</param-value>
+    </context-param>
+    <!-- 设定刷新日志配置文件的时间间隔，这里设置为10s -->
+    <context-param>
+        <param-name>log4jRefreshInterval</param-name>
+        <param-value>10000</param-value>
+    </context-param>
+    <!-- 为避免项目间冲突，定义唯一的 webAppRootKey -->
+    <!--注意WebUtils的webAppRootKey参数默认值是webapp.root-->
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>program.root</param-value>
+    </context-param>
+    <!-- 加载Spring框架中的log4j监听器Log4jConfigListener -->
+    <!--发现Log4jConfigListener已过期，Spring建议用log4j2 来替换这个类-->
+    <!--注意ContextListener需要在Log4jConfigListener之后-->
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
 
     <!-- Bootstraps the root web application context before servlet initialization -->
     <listener>
