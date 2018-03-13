@@ -18,6 +18,16 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!-- <mvc:resources/ >自动注册的 SimpleUrlHandlerMapping的order属性值是： 2147483646
+         <mvc:default-servlet-handler/>自动注册的SimpleUrlHandlerMapping 的order属性值是： 2147483647
+         spring会先执行order值比较小的。-->
+    <!--静态资源访问处理-->
+    <!--mapping：映射路径
+            两个*，它表示映射static/下所有的URL，包括子路径（即接多个/）
+        location 指定本地静态资源的位置，必须是webapp根目录下的路径。
+            如果你将资源目录，放置到webapp/WEB-INF下面的话，应该改为location="/WEB-INF/static/-->
+    <mvc:resources mapping="/static/**" location="/static/"/>
+
     <!--两个标准配置  -->
     <!-- 将springmvc不能处理的请求交给tomcat 。比如静态资源-->
     <mvc:default-servlet-handler/>
