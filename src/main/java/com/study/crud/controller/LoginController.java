@@ -1,9 +1,14 @@
 package com.study.crud.controller;
 
+import com.study.crud.utils.PdfGenerator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Desc:
@@ -43,5 +48,24 @@ public class LoginController {
     public String userLogout(HttpSession httpSession){
         httpSession.invalidate();
         return "login";
+    }
+
+    /**
+     * pdf下载
+     * @param request
+     * @param response
+     * @author qianqian 2017-3-16 下午4:19:35
+     */
+    @RequestMapping("/testDownload")
+    public void downloadLetter(HttpServletRequest request, HttpServletResponse response){
+        try {
+            Map<String,Object> variables = new HashMap<String,Object>();
+            variables.put("name", "zxxx");
+            String basePath = request.getSession().getServletContext().getRealPath("/");
+            variables.put("contextPath", basePath);
+            PdfGenerator.printPDF(basePath, variables, "hello", response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
