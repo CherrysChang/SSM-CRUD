@@ -17,6 +17,12 @@
     <script src="${APP_PATH }/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 </head>
 <body>
+<center>
+    <c:if test="${username!=null }">
+        ${username}
+        <a href="${pageContext.request.contextPath}/userLogout">退出</a>
+    </c:if>
+</center>
 <!-- 搭建显示页面：使用BootStrap搭建（https://v3.bootcss.com/）。官方文档：栅格系统--https://v3.bootcss.com/css/#grid-->
 <%--列表页面--%>
 <div class="container">
