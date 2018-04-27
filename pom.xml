@@ -8,6 +8,11 @@
     <name>ssm-crud Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
+    <properties>
+        <!--统一声明Spring框架的版本号，其中 spring.version 部分是自定义标签。后面引用格式为${自定义标签名}-->
+        <spring.version>4.3.14.RELEASE</spring.version>
+    </properties>
+
     <!--引入项目依赖的jar包 -->
     <dependencies>
         <!-- SpringMVC、Spring -->
@@ -15,7 +20,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>4.3.14.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <!-- Spring-Jdbc -->
@@ -23,7 +28,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>4.3.14.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <!-- Spring面向切面编程 -->
@@ -31,7 +36,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
-            <version>4.3.14.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <!--Spring 单元测试 Spring-test -->
@@ -39,7 +44,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>4.3.14.RELEASE</version>
+            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
 
