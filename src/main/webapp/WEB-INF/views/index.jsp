@@ -37,8 +37,8 @@
     <div class="row">
         <%--占据4列 并设置偏移--%>
         <div class="col-md-4 col-md-offset-8">
-            <button class="btn btn-primary" id="emp_add_modal_btn">新增</button>
-            <button class="btn btn-danger" id="emp_delete_all_btn">删除</button>
+            <button class="btn btn-primary" id="emp_add_modal_btn"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增</button>
+            <button class="btn btn-danger" id="emp_delete_all_btn"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>删除</button>
         </div>
     </div>
     <!-- 第三行：显示表格数据 -->
