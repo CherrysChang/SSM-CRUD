@@ -36,6 +36,15 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     /**
+     * 跳转 列表页
+     * @return
+     */
+    @RequestMapping("/index")
+    public String toIndex(){
+        return "index";
+    }
+
+    /**
      *查询员工数据（分页查询）
      *
      * index.jsp中“<jsp:forward page="/emps"/>”直接跳转到emps请求的方式

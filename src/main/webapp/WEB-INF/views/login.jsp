@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="pad">
-                    <input type="hidden" name="_csrf" value="9IAtUxV2CatyxHiK2LxzOsT6wtBE6h8BpzOmk=">
+                    <%--<input type="hidden" name="_csrf" value="9IAtUxV2CatyxHiK2LxzOsT6wtBE6h8BpzOmk=">--%>
                     <div class="control-group">
                         <div class="controls">
                             <label for="username" class="control-label fa fa-user"></label>
@@ -47,6 +47,7 @@
                             <input id="password" type="password" name="password" placeholder="Password" tabindex="2" class="form-control input-medium">
                         </div>
                     </div>
+                    <span style="color: red">${errmsg}</span>
                 </div>
                 <div class="form-actions"><a href="#" tabindex="5" class="btn pull-left btn-link text-muted">Forgot password?</a><a href="#" tabindex="6" class="btn btn-link text-muted">Sign Up</a>
                     <button type="submit" tabindex="4" class="btn btn-primary">Login</button>

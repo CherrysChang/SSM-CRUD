@@ -45,7 +45,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             //登陆成功的用户才能访问列表界面
             return true;
         } else {
-            //没有登陆，重定向登陆界面
+            //没有登陆，请求转发到登陆界面
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
             return false;
         }

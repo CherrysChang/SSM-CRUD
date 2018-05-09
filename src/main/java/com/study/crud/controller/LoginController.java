@@ -2,6 +2,7 @@ package com.study.crud.controller;
 
 import com.study.crud.utils.PdfGenerator;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,14 +28,14 @@ public class LoginController {
      * @return
      */
     @RequestMapping("/userLogin")
-    public String userLogin(HttpSession httpSession, String username, String password) {
+    public String userLogin(HttpSession httpSession, String username, String password, Model model) {
         if (username.equals("admin") && password.equals("666666")) {
             //登陆成功
             httpSession.setAttribute("username", username);
-            return "index";
+            return "redirect:/index";
         } else {
             //登陆失败
-            System.out.println("登录失败！请重新登录");
+            model.addAttribute("errmsg","登录失败，请重新登录！");
             return "login";
         }
     }
