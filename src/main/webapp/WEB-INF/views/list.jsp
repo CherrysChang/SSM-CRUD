@@ -41,7 +41,7 @@
             <%--表格样式参见：https://v3.bootcss.com/css/#tables--%>
             <table class="table table-hover">
                 <tr>
-                    <th>#</th>
+                    <th>id</th>
                     <th>empName</th>
                     <th>gender</th>
                     <th>email</th>
@@ -56,7 +56,7 @@
                         <th>${emp.email }</th>
                         <th>${emp.department.deptName }</th>
                         <th>
-                            <button class="btn btn-primary btn-sm">
+                            <button class="btn btn-info btn-sm">
                                     <%--字体图标参见：https://v3.bootcss.com/components/--%>
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                 编辑
@@ -75,7 +75,7 @@
     <!-- 第四行：显示分页信息 -->
     <div class="row">
         <!--1、分页文字信息  -->
-        <div class="col-md-6">当前 ${pageInfo.pageNum } 页，总 ${pageInfo.pages }页，总 ${pageInfo.total } 条记录</div>
+        <div class="col-md-6">当前<span class="label label-default">${pageInfo.pageNum }</span>页，总<span class="label label-default">${pageInfo.pages }</span>页，总<span class="label label-default">${pageInfo.total }</span>条记录</div>
         <!--2、分页条信息-->
         <div class="col-md-6">
             <%--参见：https://v3.bootcss.com/components/#pagination--%>

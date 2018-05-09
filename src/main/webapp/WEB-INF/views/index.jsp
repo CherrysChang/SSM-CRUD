@@ -33,7 +33,6 @@
         <c:if test="${username!=null }">
             ${username}
             <a href="${pageContext.request.contextPath}/userLogout">退出</a>
-
         </c:if>
     </p>
 </div>
@@ -239,7 +238,7 @@
              编辑
              </button>
              */
-            var editBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
+            var editBtn = $("<button></button>").addClass("btn btn-info btn-sm edit_btn")
                 .append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("编辑");
             //为编辑按钮添加一个自定义的属性，来表示当前员工id
             editBtn.attr("edit-id",item.empId);
@@ -268,9 +267,9 @@
         //清空信息
         $("#page_info_area").empty();
 
-        $("#page_info_area").append("当前 "+result.extend.pageInfo.pageNum+" 页,总 "+
-            result.extend.pageInfo.pages+" 页,总 "+
-            result.extend.pageInfo.total+" 条记录");
+        $("#page_info_area").append("当前<span class='label label-default'>"+result.extend.pageInfo.pageNum+"</span>页,总<span class='label label-default'>"+
+            result.extend.pageInfo.pages+"</span>页,总<span class='label label-default'>"+
+            result.extend.pageInfo.total+"</span>条记录");
 
         totalRecord = result.extend.pageInfo.total;//给全局变量赋值方便其他方法使用该变量值
         currentPage = result.extend.pageInfo.pageNum;
