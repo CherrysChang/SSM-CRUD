@@ -17,31 +17,37 @@
     <script src="${APP_PATH }/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 </head>
 <body>
-<center>
-    <c:if test="${username!=null }">
-        ${username}
-        <a href="${pageContext.request.contextPath}/userLogout">退出</a>
-    </c:if>
-</center>
 <!-- 搭建显示页面：使用BootStrap搭建（https://v3.bootcss.com/）。官方文档：栅格系统--https://v3.bootcss.com/css/#grid-->
+<div class="navbar navbar-default">
+    <div class="navbar-header">
+        <a href="##" class="navbar-brand">SSM-CRUD</a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li class="active"><a href="${APP_PATH}/index">员工列表</a></li>
+        <li><a href="##">菜单2</a></li>
+        <li><a href="##">菜单3</a></li>
+        <li><a href="##">菜单4</a></li>
+        <li><a href="##">菜单5</a></li>
+    </ul>
+    <p class="navbar-text navbar-right" style="margin-right: 15px">
+        <c:if test="${username!=null }">
+            ${username}
+            <a href="${pageContext.request.contextPath}/userLogout">退出</a>
+
+        </c:if>
+    </p>
+</div>
 <%--列表页面--%>
 <div class="container">
-    <!-- 第一行：标题 -->
+    <!-- 第一行：按钮 -->
     <div class="row">
-        <%--占据12列--%>
-        <div class="col-md-12">
-            <h1>SSM-CRUD</h1>
-        </div>
-    </div>
-    <!-- 第二行：按钮 -->
-    <div class="row">
-        <%--占据4列 并设置偏移--%>
-        <div class="col-md-4 col-md-offset-8">
+        <%--占据2列 并设置偏移--%>
+        <div class="col-md-2 col-md-offset-10">
             <button class="btn btn-primary" id="emp_add_modal_btn"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增</button>
             <button class="btn btn-danger" id="emp_delete_all_btn"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>删除</button>
         </div>
     </div>
-    <!-- 第三行：显示表格数据 -->
+    <!-- 第二行：显示表格数据 -->
     <div class="row">
         <%--占据12列--%>
         <div class="col-md-12">
@@ -65,7 +71,7 @@
         </div>
     </div>
 
-    <!-- 第四行：显示分页信息 -->
+    <!-- 第三行：显示分页信息 -->
     <div class="row">
         <!--1、分页文字信息  -->
         <div class="col-md-6" id="page_info_area"></div>
