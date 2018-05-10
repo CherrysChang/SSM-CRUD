@@ -75,21 +75,21 @@
                     <div class="control-group">
                         <div class="controls">
                             <label for="forget-username" class="control-label fa fa-user"></label>
-                            <input id="forget-username" type="text" name="username" placeholder="请输入用户名" tabindex="1"
+                            <input id="forget-username" type="text" name="username" placeholder="请输入用户名" tabindex="6"
                                    autofocus="autofocus" class="form-control input-medium">
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="controls">
                             <label for="forget-password" class="control-label fa fa-asterisk"></label>
-                            <input id="forget-password" type="password" name="password" placeholder="请重置密码" tabindex="2"
+                            <input id="forget-password" type="password" name="password" placeholder="请重置密码" tabindex="7"
                                    class="form-control input-medium">
                         </div>
                     </div>
                 </div>
                 <div class="form-actions">
-                    <a href="javascript:void(0);" tabindex="4" class="btn pull-left btn-link text-muted" onClick="goto_login()">返回登录</a>
-                    <button type="button" tabindex="3" class="btn btn-primary" onClick="forget()">重置密码</button>
+                    <a href="javascript:void(0);" tabindex="9" class="btn pull-left btn-link text-muted" onClick="goto_login()">返回登录</a>
+                    <button type="button" tabindex="8" class="btn btn-primary" onClick="forget()">重置密码</button>
                 </div>
             </form>
         </div>
@@ -109,28 +109,28 @@
                     <div class="control-group">
                         <div class="controls">
                             <label for="register-username" class="control-label fa fa-user"></label>
-                            <input id="register-username" type="text" name="username" placeholder="请输入用户名" tabindex="1"
+                            <input id="register-username" type="text" name="username" placeholder="请输入用户名" tabindex="10"
                                    autofocus="autofocus" class="form-control input-medium">
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="controls">
                             <label for="register-password" class="control-label fa fa-asterisk"></label>
-                            <input id="register-password" type="password" name="password" placeholder="请输入密码" tabindex="2"
+                            <input id="register-password" type="password" name="password" placeholder="请输入密码" tabindex="11"
                                    class="form-control input-medium">
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="controls">
                             <label for="register-repassword" class="control-label fa fa-asterisk"></label>
-                            <input id="register-repassword" type="password" name="password" placeholder="请确认密码" tabindex="3"
+                            <input id="register-repassword" type="password" name="password" placeholder="请确认密码" tabindex="12"
                                    class="form-control input-medium">
                         </div>
                     </div>
                 </div>
                 <div class="form-actions">
-                    <a href="javascript:void(0);" tabindex="5" class="btn pull-left btn-link text-muted" onClick="goto_login()">返回登录</a>
-                    <button type="button" tabindex="4" class="btn btn-primary" onClick="register()">注册</button>
+                    <a href="javascript:void(0);" tabindex="14" class="btn pull-left btn-link text-muted" onClick="goto_login()">返回登录</a>
+                    <button type="button" tabindex="13" class="btn btn-primary" onClick="register()">注册</button>
                 </div>
             </form>
         </div>
