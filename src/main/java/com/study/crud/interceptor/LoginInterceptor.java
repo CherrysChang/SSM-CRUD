@@ -1,5 +1,6 @@
 package com.study.crud.interceptor;
 
+import com.study.crud.exception.UnLoginException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -29,7 +30,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     /**
      * 该 preHandle 方法在目标方法之前被调用.
      * 若返回值为 true, 则继续调用后续的拦截器和目标方法.
-     * 若返回值为 false, 则不会再调用后续的拦截器和目标方法.
+     * 若返回值为 false或者抛出异常, 则不会再调用后续的拦截器和目标方法.
      *
      * @param request
      * @param response
@@ -46,10 +47,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             return true;
         } else {
             //没有登陆，请求转发到登陆界面
-//            request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-            //重定向到登录界面
-            response.sendRedirect(request.getContextPath()+"/login");
-            return false;
+//            request.getRequestDispatcher("/WEB-INF/views/loginUI.jsp").forward(request, response);
+            //方式一：直接在拦截器中 重定向到登录界面
+            //response.sendRedirect(request.getContextPath()+"/login");
+//            return false;
+            //方式二：自定义一个登录失败的异常类，并在SpringMVC配置文件中配置异常处理
+            throw new UnLoginException("您尚未登录！");
         }
     }
 

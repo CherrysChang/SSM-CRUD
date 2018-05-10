@@ -21,6 +21,12 @@ import java.util.Map;
 @Controller
 public class LoginController {
 
+    /*@RequestMapping("/test")
+    public void test(){
+        int a=5/0;//此处会抛出ArithmeticException异常。测试SpringMVC的异常处理
+        System.out.println(a);
+    }*/
+
     /**
      * 跳转到登录页面
      * @return
@@ -30,7 +36,7 @@ public class LoginController {
         if(errmsg !=null){
             map.put("errmsg", errmsg);
         }
-        return "login";
+        return "loginUI";
     }
 
     /**

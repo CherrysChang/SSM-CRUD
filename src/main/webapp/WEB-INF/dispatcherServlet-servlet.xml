@@ -50,10 +50,28 @@
             <mvc:exclude-mapping path="/userLogin"/>
             <mvc:exclude-mapping path="/userLogout"/>
             <mvc:exclude-mapping path="/login"/>
+            <!--<mvc:exclude-mapping path="/test"/>-->
             <!--静态资源不拦截-->
             <mvc:exclude-mapping path="/static/**"/>
             <!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
             <bean class="com.study.crud.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
+
+    <!--SpringMVC 异常处理-->
+    <!--对所有异常进行统一处理，可以使用 SimpleMappingExceptionResolver，它将异常类名映射为视图名，即发生异常时使用对应的视图报告异常。-->
+    <!--配置这个只能拦截Exception，对于404错误是拦截不了的，要单独在web.xml配置，它比web.xml中配置错误页面强大的地方是可以把异常输出。-->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <!-- 定义默认错误页面，如果exceptionMappings为null，即下面没有配置exceptionMappings属性，viewname 的值为当前defaultErrorView属性的value值-->
+        <property name="defaultErrorView" value="loginUI"/>
+        <!-- 定义异常处理页面用来获取异常信息的变量名，也可不定义，默认名为exception -->
+        <property name="exceptionAttribute" value="ex"/>
+        <!-- 定义需要特殊处理的异常-->
+        <property name="exceptionMappings">
+            <props>
+                <prop key="com.study.crud.exception.UnLoginException">redirect:/login</prop><!--如果不带redirect:或forward:，此标签内只需要写上前面去除前缀和后缀的 逻辑视图名 即可-->
+                <!--<prop key="java.lang.ArithmeticException">loginUI</prop>-->
+            </props>
+        </property>
+    </bean>
 </beans>
