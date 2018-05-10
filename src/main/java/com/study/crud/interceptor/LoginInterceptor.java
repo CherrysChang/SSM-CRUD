@@ -46,7 +46,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             return true;
         } else {
             //没有登陆，请求转发到登陆界面
-            request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+//            request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+            //重定向到登录界面
+            response.sendRedirect(request.getContextPath()+"/login");
             return false;
         }
     }

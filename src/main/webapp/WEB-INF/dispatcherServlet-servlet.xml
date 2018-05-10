@@ -49,6 +49,7 @@
             <!--设置不拦截的路径-->
             <mvc:exclude-mapping path="/userLogin"/>
             <mvc:exclude-mapping path="/userLogout"/>
+            <mvc:exclude-mapping path="/login"/>
             <!--静态资源不拦截-->
             <mvc:exclude-mapping path="/static/**"/>
             <!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->

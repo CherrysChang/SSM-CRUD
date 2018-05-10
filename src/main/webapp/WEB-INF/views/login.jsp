@@ -47,11 +47,13 @@
                                    class="form-control input-medium">
                         </div>
                     </div>
-                    <span style="color: red">${errmsg}</span>
+                    <span style="color: red">${errmsg=='-1'?"登录失败，请重新登录！":""}</span>
                 </div>
                 <div class="form-actions">
-                    <a href="#" tabindex="4" class="btn pull-left btn-link text-muted" onclick="goto_forget()">忘记密码?</a>
-                    <a href="#" tabindex="5" class="btn btn-link text-muted" onclick="goto_register()">注册</a>
+                    <%--ps：a标签点击页面跳转之后返回当前页面URL会多一个#；换成其他标签就不会了。或者换成另外一种方法：href后面写成“javascript:void(0);”；这样就禁止了a标签的跳转。
+                    原理：onclick方法负责执行js函数，而void是一个操作符，void(0)返回undefined，地址不发生跳转。“javascript:;”类似，区别只是执行了一条空的js代码。--%>
+                    <a href="javascript:void(0);" tabindex="4" class="btn pull-left btn-link text-muted" onclick="goto_forget()">忘记密码?</a>
+                    <a href="javascript:void(0);" tabindex="5" class="btn btn-link text-muted" onclick="goto_register()">注册</a>
                     <button type="submit" tabindex="3" class="btn btn-primary">登录</button>
                 </div>
             </form>
@@ -86,7 +88,7 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <a href="#" tabindex="4" class="btn pull-left btn-link text-muted" onClick="goto_login()">返回登录</a>
+                    <a href="javascript:void(0);" tabindex="4" class="btn pull-left btn-link text-muted" onClick="goto_login()">返回登录</a>
                     <button type="button" tabindex="3" class="btn btn-primary" onClick="forget()">重置密码</button>
                 </div>
             </form>
@@ -127,7 +129,7 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <a href="#" tabindex="5" class="btn pull-left btn-link text-muted" onClick="goto_login()">返回登录</a>
+                    <a href="javascript:void(0);" tabindex="5" class="btn pull-left btn-link text-muted" onClick="goto_login()">返回登录</a>
                     <button type="button" tabindex="4" class="btn btn-primary" onClick="register()">注册</button>
                 </div>
             </form>

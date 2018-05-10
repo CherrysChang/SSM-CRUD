@@ -31,7 +31,7 @@
     </ul>
     <p class="navbar-text navbar-right" style="margin-right: 15px">
         <c:if test="${username!=null }">
-            ${username}
+            当前用户：${username}
             <a href="${pageContext.request.contextPath}/userLogout">退出</a>
         </c:if>
     </p>
