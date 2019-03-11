@@ -1,5 +1,7 @@
 package com.study.crud.controller;
 
+import com.study.crud.exception.BusinessException;
+import com.study.crud.exception.error.EmBusinessError;
 import com.study.crud.utils.PdfGenerator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +21,16 @@ import java.util.Map;
  **/
 //@SessionAttributes(value = {"errmsg"})
 @Controller
-public class LoginController {
+public class LoginController extends BaseController{
 
     /*@RequestMapping("/test")
     public void test(){
+        //测试异常1
         int a=5/0;//此处会抛出ArithmeticException异常。测试SpringMVC的异常处理
         System.out.println(a);
+
+        //测试异常2
+        *//*throw new BusinessException(EmBusinessError.UNKNOW_ERROR);*//*
     }*/
 
     /**
